@@ -42,7 +42,7 @@ class StartPage : AppCompatActivity() {
     private fun shareApp() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_TEXT,"ggg")
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"https://github.com/Tushukk31059/NumberPuzzle/releases")
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Share Number Puzzle App")
         startActivity(Intent.createChooser(shareIntent, "Share via"))
     }

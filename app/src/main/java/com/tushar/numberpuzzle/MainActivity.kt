@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btn1: Button
-    private  lateinit var btn2: Button
+    private lateinit var btn2: Button
     private lateinit var btn3: Button
     private lateinit var btn4: Button
     private lateinit var btn5: Button
@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         click(8)
         click(9)
         click(10)
+        shuffle()
     }
 
     private fun click(i: Int) {
@@ -127,20 +128,7 @@ class MainActivity : AppCompatActivity() {
                 change(8, 5, 2)
             }
             if (i == 9) {
-                val ab = ArrayList<String>()
-                repeat(9) {
-                    while (true) {
-                        val a = (Math.random() * 9).toInt()
-                        if (!ab.contains("$a")) {
-                            ab.add("$a")
-                            break
-                        }
-                    }
-                }
-                ab[ab.indexOf("0")] = ""
-                ab.forEachIndexed { index, _ ->
-                    btn[index].text = ab[index]
-                }
+                shuffle()
             }
             if (btn[0].text.toString().equals("1") && btn[1].text.toString()
                     .equals("2") && btn[2].text.toString().equals("3") && btn[3].text.toString()
@@ -199,6 +187,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun isSolvable(puzzle: List<Int>): Boolean {
+        val arr = puzzle.filter { it != 0 }
+        var inversions = 0
+        for (i in arr.indices) {
+            for (j in i + 1 until arr.size) {
+                if (arr[i] > arr[j]) inversions++
+            }
+        }
+        return inversions % 2 == 0
+    }
+
+    private fun shuffle() {
+        var ab: MutableList<Int>
+        do {
+            ab = (0..8).shuffled().toMutableList()
+        } while (!isSolvable(ab))
+        ab[ab.indexOf(0)] = -1
+        ab.forEachIndexed { index, value ->
+            btn[index].text = if (value == -1) "" else value.toString()
+        }
+    }
+
     private fun change(first: Int, second: Int, third: Int) {
         if (btn[third].text.toString().isEmpty()) {
             btn[third].text = btn[second].text.toString()
@@ -206,4 +216,5 @@ class MainActivity : AppCompatActivity() {
             btn[first].text = ""
         }
 
-}}
+    }
+}
